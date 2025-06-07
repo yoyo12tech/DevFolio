@@ -8,7 +8,7 @@ body{
 }
 .navbar{
     background-color: rgba(0, 0, 0, 0.8);
-    padding: 0.3rem 5rem;
+    padding: 0.3rem 2.5rem;
     --bs-navbar-brand-color:#fff;
     --bs-navbar-brand-hover-color:white;
     --bs-navbar-color: white;;
