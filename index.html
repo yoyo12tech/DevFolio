@@ -232,7 +232,7 @@
                             <i class="fa-solid fa-crown text-white fs-4"></i>
                         </div>
                         <div class="content text-white">
-                            <p>450</p>
+                            <p class="counter" data-target="450">0</p>
                             <span>works completed</span>
                         </div>
                     </div>
@@ -241,7 +241,7 @@
                             <i class="fa-solid fa-bookmark text-white fs-4"></i>
                         </div>
                         <div class="content text-white">
-                            <p>25</p>
+                            <p class="counter" data-target="25">0</p>
                             <span>years of experience</span>
                         </div>
                     </div>
@@ -250,7 +250,7 @@
                             <i class="fa-solid fa-users text-white fs-4"></i>
                         </div>
                         <div class="content text-white">
-                            <p>550</p>
+                            <p class="counter" data-target="550">0</p>
                             <span>total clients</span>
                         </div>
                     </div>
@@ -259,7 +259,7 @@
                             <i class="fa-solid fa-trophy text-white fs-4"></i>
                         </div>
                         <div class="content text-white">
-                            <p>48</p>
+                            <p class="counter" data-target="48">0</p>
                             <span>awards won</span>
                         </div>
                     </div>
@@ -638,5 +638,60 @@
     </div>
 
     <script src="./js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const statsSection = document.querySelector("#stats");
+            const counters = Array.from(document.querySelectorAll(".counter"));
+
+            const animateCounter = (el, duration = 1500) => {
+                const target = Number.parseInt(el.dataset.target || "0", 10);
+                const start = 0;
+                const startTime = performance.now();
+
+                const step = (now) => {
+                    const progress = Math.min((now - startTime) / duration, 1);
+                    const value = Math.floor(target * progress);
+                    el.textContent = value.toString();
+
+                    if (progress < 1) {
+                        requestAnimationFrame(step);
+                    } else {
+                        el.textContent = target.toString();
+                    }
+                };
+
+                requestAnimationFrame(step);
+            };
+
+            const startAllCounters = () => {
+                counters.forEach((counter) => {
+                    if (!counter.dataset.animated) {
+                        counter.dataset.animated = "true";
+                        animateCounter(counter);
+                    }
+                });
+            };
+
+            if (!statsSection || counters.length === 0) {
+                return;
+            }
+
+            if ("IntersectionObserver" in window) {
+                const observer = new IntersectionObserver(
+                    (entries, obs) => {
+                        if (entries.some((entry) => entry.isIntersecting)) {
+                            startAllCounters();
+                            obs.disconnect();
+                        }
+                    },
+                    { threshold: 0.55 }
+                );
+
+                observer.observe(statsSection);
+            } else {
+                startAllCounters();
+            }
+        });
+    </script>
 </body>
 </html>
