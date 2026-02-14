@@ -20,7 +20,6 @@ body{
     display: inline-block;
     font-weight: 600;
     padding-bottom: 6px;
-    border-bottom:  0.15rem solid rgb(255, 255, 255);
     color: rgb(0, 81, 255) !important;
 }
 /* .navigation .active:hover{
